@@ -1,0 +1,34 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "This is the back-end for the Nifty Markets project, which is part of Lambda School Build Week.",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+		"test": "cross-env DB_ENV=testing jest --watchAll --verbose",
+		"start": "node index.js"
+	},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niftymarkets/server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/niftymarkets/server/issues"
+  },
+  "homepage": "https://github.com/niftymarkets/server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "helmet": "^3.15.1",
+    "jest": "^24.3.1",
+    "jsonwebtoken": "^8.5.0",
+    "knex": "^0.16.3",
+    "nodemon": "^1.18.10",
+    "sqlite3": "^4.0.6"
+  }
+}
