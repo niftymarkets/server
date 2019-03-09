@@ -5,9 +5,10 @@ exports.up = function(knex, Promise) {
     tbl.string('name').notNullable();
     tbl.float('price').notNullable();
     tbl.text('description').notNullable();
-    tbl.string('category');
+    tbl.string('category').notNullable();
     tbl.string('seller').unsigned().references('userId').inTable('users').notNullable();
     tbl.string('img_url').notNullable();
+    tbl.string('availability').notNullable();    //bought, sold, available
   })
 };
 
