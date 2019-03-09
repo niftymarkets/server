@@ -1,13 +1,9 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-
+const middleware = require('../middleware/middleware')
 
 const server = express();
 
-server.use(helmet());
-server.use(cors());
-server.use(express.json());
+middleware(server);
+
 
 server.get('/', async (req, res) => {
   res.status(200).json({ api: 'running' });
