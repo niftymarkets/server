@@ -1,6 +1,8 @@
 const middleware = require('../middleware/middleware');
 const express = require('express');
 const itemsRoutes = require('./routes/itemsRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 
 const server = express();
 
@@ -13,5 +15,7 @@ server.get('/', async (req, res) => {
 });
 
 server.use('/api/items', itemsRoutes);
+server.use('/api/users', userRoutes);
+
 
 module.exports = server
