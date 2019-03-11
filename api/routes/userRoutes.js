@@ -28,9 +28,35 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/items', async (req, res) => {
   try {
-    const user = await db('users').where({ userId: req.params.id });
-    const itemList = await db('usersItems').where({ userId: req.params.id })
-    res.status(200).json({ user, itemList })
+    // const user = await db('users').where({ userId: req.params.id });
+    // const itemList = await db('usersItems').where({ userId: req.params.id })
+    const itemList = await db('items').where({ userId: req.params.id })
+
+    res.status(200).json(itemList)
+  } catch (error) {
+    res.status(500).json({ message: "Could not retrieve user items at this time"})
+  }
+})
+
+router.get('/:id/purchases', async (req, res) => {
+  try {
+    // const user = await db('users').where({ userId: req.params.id });
+    // const itemList = await db('usersItems').where({ userId: req.params.id })
+    const itemList = await db('items').where({ buyerId: req.params.id })
+
+    res.status(200).json(itemList)
+  } catch (error) {
+    res.status(500).json({ message: "Could not retrieve user items at this time"})
+  }
+})
+
+router.get('/:id/sold', async (req, res) => {
+  try {
+    // const user = await db('users').where({ userId: req.params.id });
+    // const itemList = await db('usersItems').where({ userId: req.params.id })
+    const itemList = await db('items').where({ userId: req.params.id}).where({ availability: "sold" })
+
+    res.status(200).json(itemList)
   } catch (error) {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }

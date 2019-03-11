@@ -6,7 +6,8 @@ exports.up = function(knex, Promise) {
     tbl.float('price');
     tbl.text('description');
     tbl.string('category');
-    tbl.integer('seller').unsigned().references('userId').inTable('users');
+    tbl.integer('buyerId');
+    tbl.integer('userId').unsigned().references('userId').inTable('users');
     tbl.string('img_url');
     tbl.string('availability');    //bought, sold, available
   })
