@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
   try {
     const item = await db('items').insert(req.body);
     if (item) {
-      return res.status(200).json({ message: "Item created successfully"})
+      return res.status(200).json({ message: "Item created successfully" })
     } else {
       return res.status(404).json({ error: "The item could not be added at this time"})
     }
@@ -44,12 +44,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-//EDIT items (put) - returns id for the item
+//EDIT items (put) 
 
 router.put('/:id', async (req, res) => {
   try {
     const edited = await db('items').where({ itemId: req.params.id }).update(req.body);
-    const editedItem = await db('items').where({ itemId: req.params.id}).first();
+    const editedItem = await db('items').where({ itemId: req.params.id }).first();
     if (edited) {
       return res.status(200).json(editedItem);
     } else {
@@ -64,9 +64,10 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    const deletedItem = await db('items').where({ itemId: req.params.id }).first().select('name');
     const deleted = await db('items').where({ itemId: req.params.id }).del();
     if (deleted) {
-      return res.status(200).json(deleted);
+      return res.status(200).json(`Your item ${deletedItem.name} has been deleted.`);
     } else {
       res.status(404).json({ error: "The item with the specified ID does not exits" })
     }

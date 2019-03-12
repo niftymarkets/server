@@ -40,15 +40,15 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const edited = await db('users').where({ userId: req.params.id}).update(req.body);
-    const editedUser = await db('users').where({ userId: req.params.id}).first();
+    const edited = await db('users').where({ userId: req.params.id }).update(req.body);
+    const editedUser = await db('users').where({ userId: req.params.id }).first();
     if (edited) {
       return res.status(200).json(editedUser);
     } else {
       return(res.status(404).json({ error: "The user with the specified ID does not exist"}))
     }
   } catch (error) {
-    res.status(500).json({ error: "The user could not be updated at this time."})
+    res.status(500).json(error)
   }
 });
 
@@ -56,9 +56,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    const deletedUser = await db('users').where({ userId: req.params.id }).first().select('username');
+    console.log(deletedUser);
     const deleted = await db('users').where({ userId: req.params.id }).del();
     if (deleted) {
-      return res.status(200).json(deleted);
+      return res.status(200).json(`Sorry to see you go, ${deletedUser.username}`);
     } else {
       res.status(404).json({ error: "The user with the specified ID does not exits" })
     }
@@ -139,7 +141,7 @@ router.post('/register', (req, res) => {
 
   db('users').insert(user)
     .then(saved => {
-      res.status(201).json(saved);
+      res.status(201).json(user.username);    //change this to just user if need to return hash for some reason
     })
     .catch(error => {
       res.status(500).json(error);
