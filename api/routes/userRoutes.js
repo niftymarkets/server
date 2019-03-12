@@ -6,6 +6,7 @@ const generateToken = require('../../auth/token-gen')
 const { authenticate } = require('../../auth/authenticate')
 
 const db = require('../../data/dbConfig');
+const Wishlist = require('../../wishlist/wishlistModel');
 
 //GET ROUTES
 
@@ -35,6 +36,17 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
+//GET user wishlist
+
+router.get('/:id/wishlist', async (req, res) => {
+  try {
+    const wishlist = await Wishlist.getWishlist(req.params.id);
+    res.status(200).json(wishlist);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 //EDIT USER
 
