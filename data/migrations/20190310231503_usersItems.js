@@ -4,8 +4,8 @@ exports.up = function(knex, Promise) {
 
     tbl.increments('id')
 
-    tbl.integer('userId').notNullable().references('userId').inTable('users');
-    tbl.integer('itemId').notNullable().references('itemId').inTable('items');
+    tbl.integer('userId').references('userId').inTable('users');
+    tbl.integer('itemId').references('itemId').inTable('items');
 
   })
 };

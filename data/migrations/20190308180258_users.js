@@ -8,7 +8,7 @@ exports.up = function(knex, Promise) {
     // tbl.integer('items_for_sale').unsigned().references('itemId').inTable('items');
     // tbl.integer('wish_list').unsigned().references('itemId').inTable('items');
     // tbl.integer('transactions').unsigned().references('itemId').inTable('items');
-    tbl.string('img_url').notNullable();
+    tbl.string('img_url');
   })
 };
 

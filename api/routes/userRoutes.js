@@ -1,7 +1,15 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
 
+const generateToken = require('../../auth/token-gen')
+const { authenticate } = require('../../auth/authenticate')
+
 const db = require('../../data/dbConfig');
+
+//GET ROUTES
+
+//GET all users
 
 router.get('/', async (req, res) => {
   try {
@@ -11,6 +19,8 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve users at this time"})
   }
 })
+
+//GET user by id
 
 router.get('/:id', async (req, res) => {
   try {
@@ -26,6 +36,39 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+//EDIT USER
+
+router.put('/:id', async (req, res) => {
+  try {
+    const edited = await db('users').where({ userId: req.params.id}).update(req.body);
+    const editedUser = await db('users').where({ userId: req.params.id}).first();
+    if (edited) {
+      return res.status(200).json(editedUser);
+    } else {
+      return(res.status(404).json({ error: "The user with the specified ID does not exist"}))
+    }
+  } catch (error) {
+    res.status(500).json({ error: "The user could not be updated at this time."})
+  }
+});
+
+//DELETE USER
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await db('users').where({ userId: req.params.id }).del();
+    if (deleted) {
+      return res.status(200).json(deleted);
+    } else {
+      res.status(404).json({ error: "The user with the specified ID does not exits" })
+    }
+  } catch (error) {
+    res.status(500).json({ error: "The user could not be deleted at this time."})
+  }
+});
+
+//GET ALL ITEMS FOR USER
+
 router.get('/:id/items', async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
@@ -38,6 +81,8 @@ router.get('/:id/items', async (req, res) => {
   }
 })
 
+//GET user purchases
+
 router.get('/:id/purchases', async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
@@ -49,6 +94,8 @@ router.get('/:id/purchases', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
+//GET user items sold
 
 router.get('/:id/sold', async (req, res) => {
   try {
@@ -63,5 +110,40 @@ router.get('/:id/sold', async (req, res) => {
 })
 
 
+//LOGIN POST
+
+router.post('/login', async (req, res) => {
+  let { username, password } = req.body;
+
+  const user = await db('users').where({ username }).first();
+  try {
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const token = generateToken.generateToken(user);
+      res.status(200).json({ message: `Welcome ${user.username}! token:`, token})
+    } else {
+      res.status(401).json({ message: 'Invalid credentials'})
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Could not be logged in at this time" })
+  }
+});
+
+
+
+//REGISTER POST
+
+router.post('/register', (req, res) => {
+  let user = req.body;
+  const hash = bcrypt.hashSync(user.password, 10);
+  user.password = hash;
+
+  db('users').insert(user)
+    .then(saved => {
+      res.status(201).json(saved);
+    })
+    .catch(error => {
+      res.status(500).json(error);
+    });
+});
 
 module.exports = router;
