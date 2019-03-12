@@ -41,7 +41,11 @@ And then go to your branch on github and create a pull request into the master b
 
 #### API ####
 
-server url: tbd, not deployed to heroku yet.
+
+## GENERAL ##
+-server url: tbd, not deployed to heroku yet.
+-For `/:itemId` and `/:userId`, use the `itemId` and `userId` respectively properties on the item/user objects. Both of these are integer numbers.
+
 
 
 #### Items Routes ####
@@ -79,6 +83,97 @@ If Successful, response should be 200 (OK). If unsuccessful, response should be 
 ]
 ```
 
+## GET Item by ID ##
+
+URL: /api/items/:id
+
+Example Data for /api/items/2:
+
+```
+[
+    {
+        "itemId": 2,
+        "name": "Cuddle Team Leader",
+        "price": 25,
+        "description": "Hug it out.",
+        "category": "outfits",
+        "buyerId": 3,
+        "userId": 1,
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+        "availability": "sold"
+    }
+]
+```
+
+## POST Items ##
+
+URL: /api/items
+
+The API does not _require_ every section to be provided. Front End architects may choose what is required on their descretion. Here is what a full item post looks like.
+
+```
+{
+    "name": "Eevee",
+    "price": 800,
+    "description": "Wow so cute",
+    "category": "pets",
+    "buyerId": null,
+    "userId": 8,
+    "img_url": "https://cdn.bulbagarden.net/upload/thumb/2/21/001Bulbasaur.png/800px-001Bulbasaur.png",
+    "availability": "available"
+}
+```
+
+A successfully created item will return:
+```
+{
+    "message": "Item created successfully"
+}
+```
+
+## EDIT (PUT) Items ##
+
+URL: /api/items/:id
+
+The API does not _require_ every section to be provided. Front End architects may choose what is required on their descretion. Here is what a an edit with only the name changed will look like for user 2. Name is being changed to Test:
+
+```
+  {
+      "name": "Cuddle Team Leader",
+      "price": 25,
+      "description": "Hug it out.",
+      "category": "outfits",
+      "buyerId": 3,
+      "userId": 1,
+      "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+      "availability": "sold"
+  }
+```
+
+The entire edited user will be returned:
+
+```
+{
+    "itemId": 2,
+    "name": "Test",
+    "price": 25,
+    "description": "Hug it out.",
+    "category": "outfits",
+    "buyerId": 3,
+    "userId": 1,
+    "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+    "availability": "sold"
+}
+```
+
+## DELETE Items ##
+
+URL: /api/items/:id
+    
+A successful delete will return a message, for example deleting item 1 will return:
+```
+"Your item Love Ranger has been deleted."
+```
 
 #### Users Routes ####
 
@@ -125,7 +220,7 @@ Example Data for /api/users/1:
 ]
 ```
 
-## GET User Items ##
+## GET User's Items ##
 
 URL: /api/users/:id/items
 
@@ -199,6 +294,91 @@ Example Data for /api/users/1/purchases:
         "availability": "sold"
     }
 ]
+```
+
+## GET Users Sold Items ##
+
+URL: /api/users/:id/sold
+
+Example Data for /api/users/1/sold:
+
+```
+[
+    {
+        "itemId": 2,
+        "name": "Cuddle Team Leader",
+        "price": 25,
+        "description": "Hug it out.",
+        "category": "outfits",
+        "buyerId": 3,
+        "userId": 1,
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+        "availability": "sold"
+    }
+]
+```
+
+## REGISTER (POST) User
+
+URL: /api/users/register
+
+Example data:
+```
+{
+	"username": "hello",
+	"password": "world"
+}
+```
+If posted succesfully, the username will be returned. Example:
+```
+"hello"
+```
+
+## LOGIN (POST) User
+
+URL: /api/users/login
+
+Form will need `username` and `password`. If posted correctly, should get a response of:
+
+```
+{
+    "message": "Welcome TestUser! token:",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9uIiwiaWF0IjoxNTUyMzQwOTM5LCJleHAiOjE1NTI0MjczMzl9.MHAPDdABRAJuiGLr8-              P1ur5e4DAcGcN0gEtNJFR_sdA"
+}
+```
+The token in the response will be removed for production, is there for developmental purposes only.
+
+## EDIT (PUT) User
+
+URL: /api/users/:id
+
+Nothing required, can change as few or as many things as wanted. 
+
+Example: Changing user 2's `username` from Sam to test, and `funds_balance` from 0 to 25:
+```
+{
+	"username": "test",
+	"funds_balance": 25
+}
+```
+A successful post will return the edited user. For example, the above edit will return:
+```
+{
+    "userId": 2,
+    "username": "test",
+    "password": "sam",
+    "funds_balance": 25,
+    "img_url": "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png"
+}
+```
+
+## DELETE User
+
+URL: /api/users/:id
+
+A successful delete will return a goodbye message, for example deleting user 1 will return:
+```
+"Sorry to see you go, scott"
 ```
 
 
