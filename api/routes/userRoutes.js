@@ -41,6 +41,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/wishlist', async (req, res) => {
   try {
+    console.log(req.params)
     const wishlist = await Wishlist.getWishlist(req.params.id);
     res.status(200).json(wishlist);
   } catch (error) {
@@ -48,9 +49,43 @@ router.get('/:id/wishlist', async (req, res) => {
   }
 });
 
+//GET wishlist item by ID
+
+router.get('/:id/wishlist/:wishlistId', async (req, res) => {
+  try {
+    console.log(req.params)
+    // const wishlist = await Wishlist.getWishlist(req.params.id)
+    const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId);
+    res.status(200).json(wishlistItem);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//DELETE item from wishlist
+
+router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
+  try {
+    console.log(req.params)
+    const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId).del();
+    if (wishlistItem) {
+        res.status(200).json({ message: "Item removed from wishlist" });   
+    } else {
+      res.status(404).json({ message: "The item with the specified ID does not exist" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "We could not remove the item from your wishlist at this time" });
+  }
+});
+
+//POST to wishlist (create wishlist item)
 
 router.post('/:id/wishlist', async (req, res) => {
   try {
+    const wishlist = await Wishlist.getWishlist(req.params.id);
+    if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
+      return res.status(404).json({ error: "This item is already on your wishlist"})
+    } 
     const item = await db('wishlist').insert(req.body);
     if (item) {
       res.status(200).json({ message: "Item added to wishlist!"});
@@ -129,13 +164,30 @@ router.get('/:id/sold', async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
-    const itemList = await db('items').where({ userId: req.params.id}).where({ availability: "sold" })
+    const itemList = await db('items').where({ userId: req.params.id}).where({ availability: false })
 
     res.status(200).json(itemList)
   } catch (error) {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
+//GET user transactions
+
+router.get('/:id/transactions', async (req, res) => {
+  try {
+    const boughtItems = await db('items').where({ buyerId: req.params.id })
+    const soldItems = await db('items').where({ userId: req.params.id}).where({ availability: false })
+    if (boughtItems || soldItems) {
+      console.log({boughtItems, soldItems});
+      res.status(200).json({boughtItems, soldItems})
+    } else {
+      res.status(404).json({error});
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
 
 
 //LOGIN POST
@@ -167,7 +219,7 @@ router.post('/register', (req, res) => {
 
   db('users').insert(user)
     .then(saved => {
-      res.status(201).json(user.username);    //change this to just user if need to return hash for some reason
+      res.status(201).json(user);    //change this to just user if need to return hash for some reason
     })
     .catch(error => {
       res.status(500).json(error);

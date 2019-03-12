@@ -8,8 +8,9 @@ exports.up = function(knex, Promise) {
     tbl.string('category');
     tbl.integer('buyerId');
     tbl.integer('userId').unsigned().references('userId').inTable('users');
+    tbl.string('username').unsigned().references('username').inTable('users');
     tbl.string('img_url');
-    tbl.string('availability');    //bought, sold, available
+    tbl.bool('availability').defaultTo(false);    //bought, sold, available
   })
 };
 
