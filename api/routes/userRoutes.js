@@ -8,7 +8,6 @@ const { authenticate } = require('../../auth/authenticate')
 const db = require('../../data/dbConfig');
 const Wishlist = require('../../wishlist/wishlistModel');
 
-//GET ROUTES
 
 //GET all users
 
@@ -20,6 +19,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve users at this time"})
   }
 })
+
 
 //GET user by id
 
@@ -37,6 +37,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+
 //GET user wishlist
 
 router.get('/:id/wishlist', async (req, res) => {
@@ -48,6 +49,7 @@ router.get('/:id/wishlist', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 //GET wishlist item by ID
 
@@ -61,6 +63,7 @@ router.get('/:id/wishlist/:wishlistId', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 //DELETE item from wishlist
 
@@ -77,6 +80,7 @@ router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
     res.status(500).json({ message: "We could not remove the item from your wishlist at this time" });
   }
 });
+
 
 //POST to wishlist (create wishlist item)
 
@@ -97,6 +101,7 @@ router.post('/:id/wishlist', async (req, res) => {
   }
 });
 
+
 //EDIT USER
 
 router.put('/:id', async (req, res) => {
@@ -112,6 +117,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json(error)
   }
 });
+
 
 //DELETE USER
 
@@ -130,6 +136,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+
 //GET ALL ITEMS FOR USER
 
 router.get('/:id/items', async (req, res) => {
@@ -143,6 +150,7 @@ router.get('/:id/items', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
 
 //GET user purchases
 
@@ -158,6 +166,7 @@ router.get('/:id/purchases', async (req, res) => {
   }
 })
 
+
 //GET user items sold
 
 router.get('/:id/sold', async (req, res) => {
@@ -171,6 +180,7 @@ router.get('/:id/sold', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
 
 //GET user transactions
 
@@ -198,7 +208,7 @@ router.post('/login', async (req, res) => {
   const user = await db('users').where({ username }).first();
   try {
     if (user && bcrypt.compareSync(password, user.password)) {
-      const token = generateToken.generateToken(user);
+      // const token = generateToken.generateToken(user);
       const id = user.userId;
       res.status(200).json({ message: `Welcome ${user.username}!`, userId: id})
     } else {
@@ -208,7 +218,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: "Could not be logged in at this time" })
   }
 });
-
 
 
 //REGISTER POST

@@ -17,7 +17,6 @@ exports.seed = function(knex, Promise) {
         {wishlistId: 10, userId: 4, itemId: 5},
         {wishlistId: 11, userId: 4, itemId: 1},
         {wishlistId: 12, userId: 5, itemId: 18},
-
       ]);
     });
 };
