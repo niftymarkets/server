@@ -3,7 +3,6 @@ const express = require('express');
 const itemsRoutes = require('./routes/itemsRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-
 const server = express();
 
 middleware(server);

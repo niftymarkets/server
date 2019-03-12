@@ -9,6 +9,7 @@ exports.up = function(knex, Promise) {
     // tbl.integer('wish_list').unsigned().references('itemId').inTable('items');
     // tbl.integer('transactions').unsigned().references('itemId').inTable('items');
     tbl.string('img_url');
+    tbl.string('email', 255);
   })
 };
 
