@@ -43,8 +43,10 @@ And then go to your branch on github and create a pull request into the master b
 
 
 ## GENERAL ##
--server url: tbd, not deployed to heroku yet.
--For `/:itemId` and `/:userId`, use the `itemId` and `userId` respectively properties on the item/user objects. Both of these are integer numbers.
+*server url: tbd, not deployed to heroku yet.
+*For `/:itemId` and `/:userId`, use the `itemId` and `userId` respectively properties on the item/user objects. Both of these are integer numbers.
+*TRUE/FALSE: The database will return 0 for false, and 1 for true. It takes in true and false no problem, just a quirk of SQLite
+*WishlistId will not necessarily coordinate to the number of wishlist items a user has. For instance, user 1's 4th wishlist item WILL NOT NECCESSARILY have a wishlistId of 4, although it may on coincidence
 
 
 
@@ -64,10 +66,11 @@ If Successful, response should be 200 (OK). If unsuccessful, response should be 
         "price": 10,
         "description": "Aim for the heart.",
         "category": "outfits",
-        "buyerId": 1,
+        "buyerId": null,
         "userId": 1,  //---SELLER-------
+	"username": "scott"
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
-        "availability": "available"
+        "availability": 1    //-----AVAILABLE BOOLEAN, TRUE
     },
     {
         "itemId": 19,
@@ -77,8 +80,9 @@ If Successful, response should be 200 (OK). If unsuccessful, response should be 
         "category": "pets",
         "buyerId": 4,
         "userId": "9",
+	"username": "quinn"
         "img_url": "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png",
-        "availability": "available"
+        "availability": 0
     },
 ]
 ```
@@ -191,6 +195,7 @@ If Successful, response should be 200 (OK). If unsuccessful, response should be 
         "password": "scott",
         "funds_balance": 0,
         "img_url": "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png"
+	"email": "scott@test.com"
     },
     {
         "userId": 2,
@@ -198,6 +203,7 @@ If Successful, response should be 200 (OK). If unsuccessful, response should be 
         "password": "sam",
         "funds_balance": 0,
         "img_url": "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png"
+	"email": "sam@test.com"
     },
 ]
 ```
@@ -318,7 +324,151 @@ Example Data for /api/users/1/sold:
 ]
 ```
 
-## REGISTER (POST) User
+## GET All Users Transactions ##
+
+URL: /api/users/:id/transactions
+
+Example Data for /api/users/1/transactions
+
+```
+{
+    "boughtItems": [
+        {
+            "itemId": 6,
+            "name": "Floss",
+            "price": 29,
+            "description": "Express yourself on the battlefield.",
+            "category": "emotes",
+            "buyerId": 1,
+            "userId": 2,
+            "username": "same",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/9AB75723_large.png",
+            "availability": 0
+        },
+        {
+            "itemId": 19,
+            "name": "Squirtle",
+            "price": 100,
+            "description": "One part squirrel, one part turtle",
+            "category": "pets",
+            "buyerId": 1,
+            "userId": 9,
+            "username": "quinn",
+            "img_url": "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png",
+            "availability": 0
+        }
+    ],
+    
+    "soldItems": [
+        {
+            "itemId": 2,
+            "name": "Cuddle Team Leader",
+            "price": 25,
+            "description": "Hug it out.",
+            "category": "outfits",
+            "buyerId": 3,
+            "userId": 1,
+            "username": "scott",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+            "availability": 0
+        }
+    ]
+}
+```
+
+## GET Users Wishlist ##
+
+URL: /api/users/:id/wishlist
+
+Example data from /api/users/1/wishlist:
+
+```
+[
+   {
+        "username": "scott",
+        "wishlistId": 3,
+        "sellerId": 2,
+        "itemId": 5,
+        "name": "Brite Bomber",
+        "price": 50,
+        "description": "The future looks bright...",
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/2FD88_large.png",
+        "availability": 1
+    },
+    {
+        "username": "scott",
+        "wishlistId": 13,
+        "sellerId": 7,
+        "itemId": 15,
+        "name": "Bouncy Ball",
+        "price": 8,
+        "description": "Boing boing!",
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/0C2110971_large.png",
+        "availability": 0
+    },
+]
+```
+
+## GET Users Wishlist Item by ID ##
+
+URL: /api/users/:id/wishlist/:wishlistId
+
+Example data from /api/users/1/wishlist/17
+
+```
+[
+    {
+        "username": "scott",
+        "wishlistId": 17,
+        "sellerId": 4,
+        "itemId": 11,
+        "name": "Basketball",
+        "price": 2,
+        "description": "Kobe!",
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/3A625901_large.png",
+        "availability": 1
+    }
+]
+```
+
+## POST Item to Users Wishlist ##
+
+URL: /api/users/:id/wishlist
+
+Example post requirements:
+
+```
+{
+    "userId": 1,
+    "itemId": 12
+}
+```
+If successful, you will get:
+```
+{
+    "message": "Item added to wishlist!"
+}
+```
+If the item is already on the users wishlist, you will get:
+```
+{
+    "error": "This item is already on your wishlist"
+}
+```
+
+## DELETE Item from Users Wishlist ##
+
+URL: /api/users/:id/wishlist/:wishlistId
+
+Example delete from /api/users/1/wishlist/12. A successful delete will return:
+```
+{
+    "message": "Item removed from wishlist"
+}
+```
+
+
+## REGISTER (POST) User ##
 
 URL: /api/users/register
 
@@ -334,7 +484,7 @@ If posted succesfully, the username will be returned. Example:
 "hello"
 ```
 
-## LOGIN (POST) User
+## LOGIN (POST) User ##
 
 URL: /api/users/login
 
@@ -348,7 +498,7 @@ Form will need `username` and `password`. If posted correctly, should get a resp
 ```
 The token in the response will be removed for production, is there for developmental purposes only.
 
-## EDIT (PUT) User
+## EDIT (PUT) User ##
 
 URL: /api/users/:id
 
@@ -372,7 +522,7 @@ A successful post will return the edited user. For example, the above edit will 
 }
 ```
 
-## DELETE User
+## DELETE User ##
 
 URL: /api/users/:id
 
