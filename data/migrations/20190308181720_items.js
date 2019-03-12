@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
     tbl.integer('userId').unsigned().references('userId').inTable('users');
     tbl.string('username').unsigned().references('username').inTable('users');
     tbl.string('img_url');
-    tbl.bool('availability').defaultTo(false);    //bought, sold, available
+    tbl.bool('availability').defaultTo(true);    //bought, sold, available
   })
 };
 
