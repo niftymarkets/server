@@ -25,7 +25,7 @@ function getWishlist(userId) {
   const items = db("wishlist")
   .join("users", "wishlist.userId", "users.userId")
   .join("items", "wishlist.itemId", "items.itemId")
-  .select("wishlist.wishlistId", "users.UserId", "items.itemId", "users.username", "items.name", "items.price", "items.description", "items.userId", "items.img_url", "items.availability")
+  .select("users.username", "wishlist.wishlistId", "items.UserId as sellerId", "items.itemId", "items.name", "items.price", "items.description", "items.img_url", "items.availability")
   .where('users.userId', userId)
 
 
