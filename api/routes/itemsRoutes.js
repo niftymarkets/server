@@ -3,6 +3,7 @@ const router = express.Router();
 
 const db = require('../../data/dbConfig');
 
+
 //Get items
 
 router.get('/', async (req, res) => {
@@ -13,6 +14,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve items at this time"})
   }
 })
+
 
 //GET INDIVIDUAL ITEM
 
@@ -29,6 +31,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
 //Make items (post)
 
 router.post('/', async (req, res) => {
@@ -43,6 +46,7 @@ router.post('/', async (req, res) => {
     return res.status(500).json({ error: "The item could not be added at this time"})
   }
 });
+
 
 //EDIT items (put) 
 
@@ -59,6 +63,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({ error: "The item could not be updated at this time."})
   }
 });
+
 
 //DELETE ITEM
 

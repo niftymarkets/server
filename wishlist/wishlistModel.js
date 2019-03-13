@@ -8,20 +8,6 @@ module.exports = {
   getWishlistById
 }
 
-// recipe = user
-// ingredient = item
-// recipe_ingredients = wishlist
-
-// function getWishlist(userId) {
-//   const items = db("users")
-//   .join("wishlist", "users.userId", "wishlist.UserId")
-//   .join("items", "items.itemId", "wishlist.itemId")
-//   .select("items.name", "items.price", "items.description", "item.userId", "item.img_url", "item.availability")
-//   .where('users.userId', userId)
-
-//   return items;
-// }
-
 function getWishlist(userId) {
   const items = db("wishlist")
   .join("users", "wishlist.userId", "users.userId")

@@ -26,7 +26,6 @@ exports.seed = function(knex, Promise) {
         {itemId: 18, name: "Charmander", price: 120, description: "Fire for smores anytime!", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/7/73/004Charmander.png/800px-004Charmander.png", userId: 9, username: "quinn", buyerId: null },
         {itemId: 19, name: "Squirtle", price: 100, description: "One part squirrel, one part turtle", category: "pets", availability: false, img_url: "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png", userId: 9, username: "quinn", buyerId: 1 },
         {itemId: 20, name: "Magikarp", price: 1, description: "Utterly useless", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/0/02/129Magikarp.png", userId: 10, username: "john", buyerId: null },
-
       ]);
     });
 };

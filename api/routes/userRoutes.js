@@ -8,7 +8,6 @@ const { authenticate } = require('../../auth/authenticate')
 const db = require('../../data/dbConfig');
 const Wishlist = require('../../wishlist/wishlistModel');
 
-//GET ROUTES
 
 //GET all users
 
@@ -21,11 +20,12 @@ router.get('/', async (req, res) => {
   }
 })
 
+
 //GET user by id
 
 router.get('/:id', async (req, res) => {
   try {
-    const user = await db('users').where({ userId: req.params.id });
+    const user = await db('users').where({ userId: req.params.id }).first();
     // const itemList = await db('usersItems').where({ userId: req.params.id })
     if (user) {
       res.status(200).json(user);
@@ -33,9 +33,10 @@ router.get('/:id', async (req, res) => {
       res.status(404).json({ message: "couldn't find user with that id"})
     }
   } catch (error) {
-    res.status(500).json({ message: "Could not retrieve user items at this time"})
+    res.status(500).json({ message: "Could not retrieve the user at this time"})
   }
 })
+
 
 //GET user wishlist
 
@@ -49,6 +50,7 @@ router.get('/:id/wishlist', async (req, res) => {
   }
 });
 
+
 //GET wishlist item by ID
 
 router.get('/:id/wishlist/:wishlistId', async (req, res) => {
@@ -61,6 +63,7 @@ router.get('/:id/wishlist/:wishlistId', async (req, res) => {
     res.status(500).json(error);
   }
 });
+
 
 //DELETE item from wishlist
 
@@ -77,6 +80,7 @@ router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
     res.status(500).json({ message: "We could not remove the item from your wishlist at this time" });
   }
 });
+
 
 //POST to wishlist (create wishlist item)
 
@@ -97,6 +101,7 @@ router.post('/:id/wishlist', async (req, res) => {
   }
 });
 
+
 //EDIT USER
 
 router.put('/:id', async (req, res) => {
@@ -112,6 +117,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json(error)
   }
 });
+
 
 //DELETE USER
 
@@ -130,6 +136,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+
 //GET ALL ITEMS FOR USER
 
 router.get('/:id/items', async (req, res) => {
@@ -143,6 +150,7 @@ router.get('/:id/items', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
 
 //GET user purchases
 
@@ -158,6 +166,7 @@ router.get('/:id/purchases', async (req, res) => {
   }
 })
 
+
 //GET user items sold
 
 router.get('/:id/sold', async (req, res) => {
@@ -171,6 +180,7 @@ router.get('/:id/sold', async (req, res) => {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
+
 
 //GET user transactions
 
@@ -199,7 +209,8 @@ router.post('/login', async (req, res) => {
   try {
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = generateToken.generateToken(user);
-      res.status(200).json({ message: `Welcome ${user.username}! token:`, token})
+      const id = user.userId;
+      res.status(200).json({ message: `Welcome ${user.username}!`, userId: id, token })
     } else {
       res.status(401).json({ message: 'Invalid credentials'})
     }
@@ -209,13 +220,14 @@ router.post('/login', async (req, res) => {
 });
 
 
-
 //REGISTER POST
 
 router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
+  user.funds_balance = 0;
+  user.img_url = "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png";
 
   db('users').insert(user)
     .then(saved => {
