@@ -226,6 +226,8 @@ router.post('/register', (req, res) => {
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
   user.password = hash;
+  user.funds_balance = 0;
+  user.img_url = "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png";
 
   db('users').insert(user)
     .then(saved => {
