@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { authenticate } = require('../../auth/authenticate')
 
 const db = require('../../data/dbConfig');
 
