@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 
 //GET user by id
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticate, async (req, res) => {
   try {
     const user = await db('users').where({ userId: req.params.id }).first();
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -40,7 +40,7 @@ router.get('/:id', async (req, res) => {
 
 //GET user wishlist
 
-router.get('/:id/wishlist', async (req, res) => {
+router.get('/:id/wishlist', authenticate, async (req, res) => {
   try {
     console.log(req.params)
     const wishlist = await Wishlist.getWishlist(req.params.id);
@@ -53,7 +53,7 @@ router.get('/:id/wishlist', async (req, res) => {
 
 //GET wishlist item by ID
 
-router.get('/:id/wishlist/:wishlistId', async (req, res) => {
+router.get('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
   try {
     console.log(req.params)
     // const wishlist = await Wishlist.getWishlist(req.params.id)
@@ -67,7 +67,7 @@ router.get('/:id/wishlist/:wishlistId', async (req, res) => {
 
 //DELETE item from wishlist
 
-router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
+router.delete('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
   try {
     const newWishlist = await db('wishlist');
     const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId).del();
@@ -84,7 +84,7 @@ router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
 
 //POST to wishlist (create wishlist item)
 
-router.post('/:id/wishlist', async (req, res) => {
+router.post('/:id/wishlist', authenticate, async (req, res) => {
   try {
     const wishlist = await Wishlist.getWishlist(req.params.id);
     if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
@@ -105,7 +105,7 @@ router.post('/:id/wishlist', async (req, res) => {
 
 //EDIT USER
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
   try {
     const edited = await db('users').where({ userId: req.params.id }).update(req.body);
     const editedUser = await db('users').where({ userId: req.params.id }).first();
@@ -122,7 +122,7 @@ router.put('/:id', async (req, res) => {
 
 //DELETE USER
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try {
     const deletedUser = await db('users').where({ userId: req.params.id }).first().select('username');
     console.log(deletedUser);
@@ -140,7 +140,7 @@ router.delete('/:id', async (req, res) => {
 
 //GET ALL ITEMS FOR USER
 
-router.get('/:id/items', async (req, res) => {
+router.get('/:id/items', authenticate, async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -155,7 +155,7 @@ router.get('/:id/items', async (req, res) => {
 
 //GET user purchases
 
-router.get('/:id/purchases', async (req, res) => {
+router.get('/:id/purchases', authenticate, async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -170,7 +170,7 @@ router.get('/:id/purchases', async (req, res) => {
 
 //GET user items sold
 
-router.get('/:id/sold', async (req, res) => {
+router.get('/:id/sold', authenticate, async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -185,7 +185,7 @@ router.get('/:id/sold', async (req, res) => {
 
 //GET user transactions
 
-router.get('/:id/transactions', async (req, res) => {
+router.get('/:id/transactions', authenticate, async (req, res) => {
   try {
     const boughtItems = await db('items').where({ buyerId: req.params.id })
     const soldItems = await db('items').where({ userId: req.params.id}).where({ availability: false })
