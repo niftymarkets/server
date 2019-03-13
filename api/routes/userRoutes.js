@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const user = await db('users').where({ userId: req.params.id });
+    const user = await db('users').where({ userId: req.params.id }).first();
     // const itemList = await db('usersItems').where({ userId: req.params.id })
     if (user) {
       res.status(200).json(user);
@@ -33,7 +33,7 @@ router.get('/:id', async (req, res) => {
       res.status(404).json({ message: "couldn't find user with that id"})
     }
   } catch (error) {
-    res.status(500).json({ message: "Could not retrieve user items at this time"})
+    res.status(500).json({ message: "Could not retrieve the user at this time"})
   }
 })
 
