@@ -1,4 +1,6 @@
 // Update with your config settings.
+
+
 const localPgConnection = {
   host: 'localhost',
   database: 'nifty',
@@ -32,7 +34,7 @@ module.exports = {
   },
 
   production: {
-    client: pg,
+    client: 'pg',
     connection: prodDbConnection,   //an object or a string
     migrations: {
       directory: './data/migrations'
