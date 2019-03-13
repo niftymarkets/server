@@ -105,7 +105,7 @@ router.post('/:id/wishlist', authenticate, async (req, res) => {
 
 //EDIT USER
 
-router.put('/:id', authenticate, async (req, res) => {
+router.put('/:id', async (req, res) => {
   try {
     const edited = await db('users').where({ userId: req.params.id }).update(req.body);
     const editedUser = await db('users').where({ userId: req.params.id }).first();
@@ -122,7 +122,7 @@ router.put('/:id', authenticate, async (req, res) => {
 
 //DELETE USER
 
-router.delete('/:id', authenticate, async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
     const deletedUser = await db('users').where({ userId: req.params.id }).first().select('username');
     console.log(deletedUser);
@@ -140,7 +140,7 @@ router.delete('/:id', authenticate, async (req, res) => {
 
 //GET ALL ITEMS FOR USER
 
-router.get('/:id/items', authenticate, async (req, res) => {
+router.get('/:id/items', async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -155,7 +155,7 @@ router.get('/:id/items', authenticate, async (req, res) => {
 
 //GET user purchases
 
-router.get('/:id/purchases', authenticate, async (req, res) => {
+router.get('/:id/purchases',  async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -170,7 +170,7 @@ router.get('/:id/purchases', authenticate, async (req, res) => {
 
 //GET user items sold
 
-router.get('/:id/sold', authenticate, async (req, res) => {
+router.get('/:id/sold', async (req, res) => {
   try {
     // const user = await db('users').where({ userId: req.params.id });
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -185,7 +185,7 @@ router.get('/:id/sold', authenticate, async (req, res) => {
 
 //GET user transactions
 
-router.get('/:id/transactions', authenticate, async (req, res) => {
+router.get('/:id/transactions', async (req, res) => {
   try {
     const boughtItems = await db('items').where({ buyerId: req.params.id })
     const soldItems = await db('items').where({ userId: req.params.id}).where({ availability: false })
