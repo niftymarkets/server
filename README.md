@@ -492,7 +492,8 @@ Form will need `username` and `password`. If posted correctly, should get a resp
 
 ```
 {
-    "message": "Welcome TestUser! token:",
+    "message": "Welcome TestUser!",
+    "userId": 15,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9uIiwiaWF0IjoxNTUyMzQwOTM5LCJleHAiOjE1NTI0MjczMzl9.MHAPDdABRAJuiGLr8-              P1ur5e4DAcGcN0gEtNJFR_sdA"
 }
 ```
