@@ -4,12 +4,12 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const corsOptions = {
-  withCredentials: true,
+  credentials: true,
 }
 
 module.exports = server => {
+   server.use(cors(corsOptions));
    server.use(helmet());
    server.use(express.json());
    server.use(morgan('short'));
-   server.use(cors(corsOptions));
 }; 

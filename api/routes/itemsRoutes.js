@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ error: "The item could not be added at this time"})
     }
   } catch (error) {
-    return res.status(500).json({ error: "The item could not be added at this time"})
+    return res.status(500).json(error)
   }
 });
 
