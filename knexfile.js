@@ -40,7 +40,7 @@ module.exports = {
       directory: './data/migrations'
     },
     seeds: {
-      directiory: './seeds'
+      directory: './seeds'
     }
   },
 

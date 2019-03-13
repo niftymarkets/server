@@ -51,7 +51,7 @@ router.post('/', async (req, res) => {
 
 //EDIT items (put) 
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
   try {
     const edited = await db('items').where({ itemId: req.params.id }).update(req.body);
     const editedItem = await db('items').where({ itemId: req.params.id }).first();
@@ -68,7 +68,7 @@ router.put('/:id', async (req, res) => {
 
 //DELETE ITEM
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticate, async (req, res) => {
   try {
     const newItemList = await db('items');
     const deletedItem = await db('items').where({ itemId: req.params.id }).first().select('name');
