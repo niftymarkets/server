@@ -39,7 +39,7 @@ And then go to your branch on github and create a pull request into the master b
 - are there any issues with this code that needs to be addressed?
 
 
-#### API ####
+## API ##
 
 
 ## GENERAL ##
@@ -50,7 +50,7 @@ And then go to your branch on github and create a pull request into the master b
 
 
 
-#### Items Routes ####
+## Items Routes ##
 
 ## GET Items ##
 
@@ -104,7 +104,7 @@ Example Data for /api/items/2:
         "buyerId": 3,
         "userId": 1,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-        "availability": "sold"
+        "availability": 0
     }
 ]
 ```
@@ -128,10 +128,36 @@ The API does not _require_ every section to be provided. Front End architects ma
 }
 ```
 
-A successfully created item will return:
+A successfully created item will return a message, along with an array of the updated item list:
 ```
 {
-    "message": "Item created successfully"
+    "message": "Item created successfully",
+     "newItemList": [
+        {
+            "itemId": 1,
+            "name": "Love Ranger",
+            "price": 10,
+            "description": "Aim for the heart.",
+            "category": "outfits",
+            "buyerId": null,
+            "userId": 1,
+            "username": "scott",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
+            "availability": 1
+        },
+        {
+            "itemId": 2,
+            "name": "Cuddle Team Leader",
+            "price": 25,
+            "description": "Hug it out.",
+            "category": "outfits",
+            "buyerId": 3,
+            "userId": 1,
+            "username": "scott",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+            "availability": 0
+        },
+      ]
 }
 ```
 
@@ -150,7 +176,7 @@ The API does not _require_ every section to be provided. Front End architects ma
       "buyerId": 3,
       "userId": 1,
       "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-      "availability": "sold"
+      "availability": 0
   }
 ```
 
@@ -166,7 +192,7 @@ The entire edited user will be returned:
     "buyerId": 3,
     "userId": 1,
     "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-    "availability": "sold"
+    "availability": 0
 }
 ```
 
@@ -174,9 +200,37 @@ The entire edited user will be returned:
 
 URL: /api/items/:id
     
-A successful delete will return a message, for example deleting item 1 will return:
+A successful delete will return a message as well as the updated item list, for example deleting item 1 will return:
 ```
-"Your item Love Ranger has been deleted."
+{
+    "message": "Your item Blue Swuire has been deleted.",
+    "newItemList": [
+        {
+            "itemId": 1,
+            "name": "Love Ranger",
+            "price": 10,
+            "description": "Aim for the heart.",
+            "category": "outfits",
+            "buyerId": null,
+            "userId": 1,
+            "username": "scott",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
+            "availability": 1
+        },
+        {
+            "itemId": 2,
+            "name": "Cuddle Team Leader",
+            "price": 25,
+            "description": "Hug it out.",
+            "category": "outfits",
+            "buyerId": 3,
+            "userId": 1,
+            "username": "scott",
+            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
+            "availability": 0
+        },
+    ]
+}
 ```
 
 #### Users Routes ####
@@ -243,7 +297,7 @@ Example Data for /api/users/1/items:
         "buyerId": null,
         "userId": 1,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
-        "availability": "available"
+        "availability": 1
     },
     {
         "itemId": 2,
@@ -254,7 +308,7 @@ Example Data for /api/users/1/items:
         "buyerId": 3,
         "userId": 1,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-        "availability": "sold"
+        "availability": 0
     },
     {
         "itemId": 3,
@@ -265,7 +319,7 @@ Example Data for /api/users/1/items:
         "buyerId": null,
         "userId": 1,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/1C0C4_large.png",
-        "availability": "available"
+        "availability": 1
     }
 ]
 ```
@@ -286,7 +340,7 @@ Example Data for /api/users/1/purchases:
         "buyerId": 1,
         "userId": 2,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/9AB75723_large.png",
-        "availability": "sold"
+        "availability": 0
     },
     {
         "itemId": 19,
@@ -297,7 +351,7 @@ Example Data for /api/users/1/purchases:
         "buyerId": 1,
         "userId": 9,
         "img_url": "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png",
-        "availability": "sold"
+        "availability": 0
     }
 ]
 ```
@@ -319,7 +373,7 @@ Example Data for /api/users/1/sold:
         "buyerId": 3,
         "userId": 1,
         "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-        "availability": "sold"
+        "availability": 0
     }
 ]
 ```
@@ -443,10 +497,27 @@ Example post requirements:
     "itemId": 12
 }
 ```
-If successful, you will get:
+If successful, you will get a message and the updated wishlist. Example:
 ```
 {
-    "message": "Item added to wishlist!"
+    "message": "Item added to wishlist!",
+     "newWishlist": [
+        {
+            "wishlistId": 1,
+            "userId": 1,
+            "itemId": 20
+        },
+        {
+            "wishlistId": 2,
+            "userId": 1,
+            "itemId": 14
+        },
+        {
+            "wishlistId": 3,
+            "userId": 1,
+            "itemId": 5
+        },
+     ]
 }
 ```
 If the item is already on the users wishlist, you will get:
@@ -460,10 +531,27 @@ If the item is already on the users wishlist, you will get:
 
 URL: /api/users/:id/wishlist/:wishlistId
 
-Example delete from /api/users/1/wishlist/12. A successful delete will return:
+Example delete from /api/users/1/wishlist/12. A successful delete will return a message along with the updated wishlist:
 ```
 {
-    "message": "Item removed from wishlist"
+    "message": "Item removed from wishlist",
+     "newWishlist": [
+        {
+            "wishlistId": 1,
+            "userId": 1,
+            "itemId": 20
+        },
+        {
+            "wishlistId": 2,
+            "userId": 1,
+            "itemId": 14
+        },
+        {
+            "wishlistId": 3,
+            "userId": 1,
+            "itemId": 5
+        },
+      ]
 }
 ```
 
