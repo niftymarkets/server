@@ -69,10 +69,10 @@ router.get('/:id/wishlist/:wishlistId', async (req, res) => {
 
 router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
   try {
-    console.log(req.params)
+    const newWishlist = await db('wishlist');
     const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId).del();
     if (wishlistItem) {
-        res.status(200).json({ message: "Item removed from wishlist" });   
+        res.status(200).json({ message: "Item removed from wishlist", newWishlist });   
     } else {
       res.status(404).json({ message: "The item with the specified ID does not exist" });
     }
@@ -90,9 +90,10 @@ router.post('/:id/wishlist', async (req, res) => {
     if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
       return res.status(404).json({ error: "This item is already on your wishlist"})
     } 
+    const newWishlist = await db('wishlist');
     const item = await db('wishlist').insert(req.body);
     if (item) {
-      res.status(200).json({ message: "Item added to wishlist!"});
+      res.status(200).json({ message: "Item added to wishlist!", newWishlist });
     } else {
       return res.status(404).json({ error: "The item could not be added to your wishlist at this time"})
     }

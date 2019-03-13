@@ -37,8 +37,9 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const item = await db('items').insert(req.body);
+    const newItemList = await db('items');
     if (item) {
-      return res.status(200).json({ message: "Item created successfully" })
+      return res.status(200).json({ message: "Item created successfully", newItemList })
     } else {
       return res.status(404).json({ error: "The item could not be added at this time"})
     }
@@ -69,10 +70,11 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
+    const newItemList = await db('items');
     const deletedItem = await db('items').where({ itemId: req.params.id }).first().select('name');
     const deleted = await db('items').where({ itemId: req.params.id }).del();
     if (deleted) {
-      return res.status(200).json(`Your item ${deletedItem.name} has been deleted.`);
+      return res.status(200).json({ message: `Your item ${deletedItem.name} has been deleted.`, newItemList });
     } else {
       res.status(404).json({ error: "The item with the specified ID does not exits" })
     }
