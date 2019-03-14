@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 
 //GET user by id
 
-router.get('/:id', authenticate, async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const user = await db('users').where({ userId: req.params.id }).first();
     // const itemList = await db('usersItems').where({ userId: req.params.id })
@@ -40,7 +40,7 @@ router.get('/:id', authenticate, async (req, res) => {
 
 //GET user wishlist
 
-router.get('/:id/wishlist', authenticate, async (req, res) => {
+router.get('/:id/wishlist', async (req, res) => {
   try {
     console.log(req.params)
     const wishlist = await Wishlist.getWishlist(req.params.id);
@@ -53,7 +53,7 @@ router.get('/:id/wishlist', authenticate, async (req, res) => {
 
 //GET wishlist item by ID
 
-router.get('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
+router.get('/:id/wishlist/:wishlistId', async (req, res) => {
   try {
     console.log(req.params)
     // const wishlist = await Wishlist.getWishlist(req.params.id)
@@ -67,7 +67,7 @@ router.get('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
 
 //DELETE item from wishlist
 
-router.delete('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
+router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
   try {
     const newWishlist = await db('wishlist');
     const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId).del();
@@ -84,14 +84,14 @@ router.delete('/:id/wishlist/:wishlistId', authenticate, async (req, res) => {
 
 //POST to wishlist (create wishlist item)
 
-router.post('/:id/wishlist', authenticate, async (req, res) => {
+router.post('/:id/wishlist', async (req, res) => {
   try {
     const wishlist = await Wishlist.getWishlist(req.params.id);
     if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
       return res.status(404).json({ error: "This item is already on your wishlist"})
     } 
-    const newWishlist = await db('wishlist');
     const item = await db('wishlist').insert(req.body);
+    const newWishlist = await db('wishlist');
     if (item) {
       res.status(200).json({ message: "Item added to wishlist!", newWishlist });
     } else {
