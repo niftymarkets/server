@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
         {userId: 1, username: "scott", password: "scott", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "scott@test.com" },
         {userId: 2, username: "sam", password: "sam", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "sam@test.com" },
         {userId: 3, username: "jordan", password: "jordan", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "jordan@test.com" },
-        {userId: 4, username: "tom", password: "tom", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "tom@test.com" },
+        {userId: 4, username: "dom", password: "dom", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "dom@test.com" },
         {userId: 5, username: "brock", password: "brock", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "brock@test.com" },
         {userId: 6, username: "lebron", password: "lebron", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "lebron@test.com" },
         {userId: 7, username: "kevin", password: "kevin", funds_balance: 0, img_url: "https://www.madd.org/wp-content/uploads/2019/02/blank-profile-picture-973460_640.png", email: "kevin@test.com" },
