@@ -90,8 +90,8 @@ router.post('/:id/wishlist', authenticate, async (req, res) => {
     if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
       return res.status(404).json({ error: "This item is already on your wishlist"})
     } 
-    const newWishlist = await db('wishlist');
     const item = await db('wishlist').insert(req.body);
+    const newWishlist = await db('wishlist');
     if (item) {
       res.status(200).json({ message: "Item added to wishlist!", newWishlist });
     } else {
