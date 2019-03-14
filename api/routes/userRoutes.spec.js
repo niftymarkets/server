@@ -46,6 +46,7 @@ describe('User routes', () => {
       expect(res.text).toContain("scott");
     });
 
+  });
 
     describe('GET /api/users/:id/wishlist', () => {
       
@@ -117,7 +118,5 @@ describe('User routes', () => {
       
     });
 
-    
-  });
   
 });
