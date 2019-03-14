@@ -190,7 +190,6 @@ router.get('/:id/transactions', async (req, res) => {
     const boughtItems = await db('items').where({ buyerId: req.params.id })
     const soldItems = await db('items').where({ userId: req.params.id}).where({ availability: false })
     if (boughtItems || soldItems) {
-      console.log({boughtItems, soldItems});
       res.status(200).json({boughtItems, soldItems})
     } else {
       res.status(404).json({error});
