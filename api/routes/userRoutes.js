@@ -26,7 +26,6 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const user = await db('users').where({ userId: req.params.id }).first();
-    // const itemList = await db('usersItems').where({ userId: req.params.id })
     if (user) {
       res.status(200).json(user);
     } else {
@@ -42,7 +41,6 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/wishlist', async (req, res) => {
   try {
-    console.log(req.params)
     const wishlist = await Wishlist.getWishlist(req.params.id);
     res.status(200).json(wishlist);
   } catch (error) {
@@ -55,8 +53,6 @@ router.get('/:id/wishlist', async (req, res) => {
 
 router.get('/:id/wishlist/:wishlistId', async (req, res) => {
   try {
-    console.log(req.params)
-    // const wishlist = await Wishlist.getWishlist(req.params.id)
     const wishlistItem = await Wishlist.getWishlistById(req.params.wishlistId);
     res.status(200).json(wishlistItem);
   } catch (error) {
