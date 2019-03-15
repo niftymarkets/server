@@ -7,7 +7,6 @@ const server = express();
 
 middleware(server);
 
-
 server.get('/', async (req, res) => {
   res.status(200).json({ api: 'running' });
   
@@ -15,6 +14,5 @@ server.get('/', async (req, res) => {
 
 server.use('/api/items', itemsRoutes);
 server.use('/api/users', userRoutes);
-
 
 module.exports = server
