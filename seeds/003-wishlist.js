@@ -1,7 +1,7 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('wishlist')
+  return knex('wishlist').del()
     .then(function () {
       // Inserts seed entries
       return knex('wishlist').insert([
