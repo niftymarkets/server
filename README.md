@@ -43,10 +43,10 @@ And then go to your branch on github and create a pull request into the master b
 
 
 ## GENERAL ##
-*server url: tbd, not deployed to heroku yet.
-*For `/:itemId` and `/:userId`, use the `itemId` and `userId` respectively properties on the item/user objects. Both of these are integer numbers.
-*TRUE/FALSE: The database will return 0 for false, and 1 for true. It takes in true and false no problem, just a quirk of SQLite
-*WishlistId will not necessarily coordinate to the number of wishlist items a user has. For instance, user 1's 4th wishlist item WILL NOT NECCESSARILY have a wishlistId of 4, although it may on coincidence
+* server url: https://nifty-markets.herokuapp.com/.
+* For `/:itemId` and `/:userId`, use the `itemId` and `userId` respectively properties on the item/user objects. Both of these are integer numbers.
+* TRUE/FALSE: The database will return 0 for false, and 1 for true. It takes in true and false no problem, just a quirk of SQLite
+* WishlistId will not necessarily coordinate to the number of wishlist items a user has. For instance, user 1's 4th wishlist item WILL NOT NECCESSARILY have a wishlistId of 4, although it may on coincidence
 
 
 
@@ -324,107 +324,124 @@ Example Data for /api/users/1/items:
 ]
 ```
 
-## GET Users Purchases ##
-
-URL: /api/users/:id/purchases
-
-Example Data for /api/users/1/purchases:
-```
-[
-    {
-        "itemId": 6,
-        "name": "Floss",
-        "price": 29,
-        "description": "Express yourself on the battlefield.",
-        "category": "emotes",
-        "buyerId": 1,
-        "userId": 2,
-        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/9AB75723_large.png",
-        "availability": 0
-    },
-    {
-        "itemId": 19,
-        "name": "Squirtle",
-        "price": 100,
-        "description": "One part squirrel, one part turtle",
-        "category": "pets",
-        "buyerId": 1,
-        "userId": 9,
-        "img_url": "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png",
-        "availability": 0
-    }
-]
-```
-
-## GET Users Sold Items ##
-
-URL: /api/users/:id/sold
-
-Example Data for /api/users/1/sold:
-
-```
-[
-    {
-        "itemId": 2,
-        "name": "Cuddle Team Leader",
-        "price": 25,
-        "description": "Hug it out.",
-        "category": "outfits",
-        "buyerId": 3,
-        "userId": 1,
-        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-        "availability": 0
-    }
-]
-```
-
-## GET All Users Transactions ##
+## GET Users Transactions ##
 
 URL: /api/users/:id/transactions
 
-Example Data for /api/users/1/transactions
+Example return from /api/users/1/transactions:
+
+```
+[
+    {
+        "transactionId": 1,
+        "buyer": "scott",
+        "buyerId": 1,
+        "seller": "lauren",
+        "sellerId": 20,
+        "itemId": 1,
+        "name": "Love Ranger",
+        "price": 10,
+        "description": "Aim for the heart.",
+        "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
+        "availability": 1
+    },
+    {
+        "transactionId": 2,
+        "buyer": "scott",
+        "buyerId": 1,
+        "seller": "john",
+        "sellerId": 10,
+        "itemId": 20,
+        "name": "Magikarp",
+        "price": 1,
+        "description": "Utterly useless",
+        "img_url": "https://cdn.bulbagarden.net/upload/0/02/129Magikarp.png",
+        "availability": 0
+    }
+]
+```
+
+
+## GET Users Transaction by Transaction ID ##
+
+URL: /api/users/:id/transasctions/:transactionId
+
+NOTE: notice there is no 's' in `transactionId`
+
+Example return from /api/users/1/transactions/1
 
 ```
 {
-    "boughtItems": [
+    "transactionId": 1,
+    "buyer": "scott",
+    "buyerId": 1,
+    "seller": "lauren",
+    "sellerId": 20,
+    "itemId": 1,
+    "name": "Love Ranger",
+    "price": 10,
+    "description": "Aim for the heart.",
+    "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png",
+    "availability": 1
+}
+```
+
+## POST Transaction to Transaction List ##
+
+Here, the front end hardly has to do with updating state, the POST will do it all. When a POST is made, the transaction is recorded, noting who the buyer and the seller are, and for what price. After the POST is done, the buyer and seller will both have a new transaction on their transaction list, with all the details of the transaction. Also, the item will be automatically updated, giving the item a new `userId` and `username` of the buyer, as well as setting the availability to false.
+
+URL: /api/users/:id/transactions
+
+Example POST, user 1 (scott) will buy item 19 from quinn:
+
+```
+{
+	"buyerId": 1,
+	"sellerId": 9,     //---This is the userId on the item that's for sale
+	"itemId": 19
+}
+```
+
+If successfully, you will receive a success message, along with a `newTransactionsList`. Example:
+
+```
+{
+    "message": "Congratulations on your new purchase!",
+    "newTransactionsList": [
         {
-            "itemId": 6,
-            "name": "Floss",
-            "price": 29,
-            "description": "Express yourself on the battlefield.",
-            "category": "emotes",
+            "transactionId": 3,
             "buyerId": 1,
-            "userId": 2,
-            "username": "same",
-            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/9AB75723_large.png",
-            "availability": 0
+            "sellerId": 9,
+            "itemId": 19,
+        }
+    ]
+}
+```
+
+## DELETE Transaction from Transaction List ##
+
+I imagine this would only be used for testing, but it's available if needed.
+
+URL: /api/users/:id/:transactionId
+
+
+If successfully, you will receive a success message, along with a `newTransactionsList`. Example:
+
+```
+{
+    "message": "Transaction removed from transactions list",
+    "newTransactionsList": [
+        {
+            "transactionId": 1,
+            "buyerId": 1,
+            "sellerId": 20,
+            "itemId": 1,
         },
         {
-            "itemId": 19,
-            "name": "Squirtle",
-            "price": 100,
-            "description": "One part squirrel, one part turtle",
-            "category": "pets",
+            "transactionId": 2,
             "buyerId": 1,
-            "userId": 9,
-            "username": "quinn",
-            "img_url": "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png",
-            "availability": 0
-        }
-    ],
-    
-    "soldItems": [
-        {
-            "itemId": 2,
-            "name": "Cuddle Team Leader",
-            "price": 25,
-            "description": "Hug it out.",
-            "category": "outfits",
-            "buyerId": 3,
-            "userId": 1,
-            "username": "scott",
-            "img_url": "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png",
-            "availability": 0
+            "sellerId": 10,
+            "itemId": 20,
         }
     ]
 }
