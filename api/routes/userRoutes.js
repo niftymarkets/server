@@ -138,62 +138,13 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id/items', async (req, res) => {
   try {
-    // const user = await db('users').where({ userId: req.params.id });
-    // const itemList = await db('usersItems').where({ userId: req.params.id })
     const itemList = await db('items').where({ userId: req.params.id })
-
     res.status(200).json(itemList)
   } catch (error) {
     res.status(500).json({ message: "Could not retrieve user items at this time"})
   }
 })
 
-
-//GET user purchases
-
-// router.get('/:id/purchases',  async (req, res) => {
-//   try {
-//     // const user = await db('users').where({ userId: req.params.id });
-//     // const itemList = await db('usersItems').where({ userId: req.params.id })
-//     const itemList = await db('items').where({ buyerId: req.params.id })
-
-//     res.status(200).json(itemList)
-//   } catch (error) {
-//     res.status(500).json({ message: "Could not retrieve user items at this time"})
-//   }
-// })
-
-
-//GET user items sold
-
-// router.get('/:id/sold', async (req, res) => {
-//   try {
-//     // const user = await db('users').where({ userId: req.params.id });
-//     // const itemList = await db('usersItems').where({ userId: req.params.id })
-//     const itemList = await db('items').where({ userId: req.params.id}).where({ availability: false })
-
-//     res.status(200).json(itemList)
-//   } catch (error) {
-//     res.status(500).json({ message: "Could not retrieve user items at this time"})
-//   }
-// })
-
-
-//GET user transactions
-
-// router.get('/:id/transactions', async (req, res) => {
-//   try {
-//     const boughtItems = await db('items').where({ buyerId: req.params.id })
-//     const soldItems = await db('items').where({ userId: req.params.id}).where({ availability: false })
-//     if (boughtItems || soldItems) {
-//       res.status(200).json({boughtItems, soldItems})
-//     } else {
-//       res.status(404).json({error});
-//     }
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// });
 
 //GET user transactions
 
@@ -223,10 +174,6 @@ router.get('/:id/transactions/:transactionId', async (req, res) => {
 
 router.post('/:id/transactions', async (req, res) => {
   try {
-    // const transactionList = await TransactionList.getTransactionList(req.params.id);
-    // if (transactionList.map(item => item.itemId).includes(req.body.itemId)) {
-    //   return res.status(404).json({ error: "This item is already on your wishlist"})
-    // } 
     const transaction = await db('transactions').insert(req.body);
     const username = await db('users').where({ userId: req.body.buyerId }).first();
     await db('items').where({ itemId: req.body.itemId }).first().update({ userId: req.params.id, availability: false, username: username.username });
@@ -260,7 +207,6 @@ router.delete('/:id/transactions/:transactionId', async (req, res) => {
 });
 
 
-
 //LOGIN POST
 
 router.post('/login', async (req, res) => {
@@ -292,7 +238,7 @@ router.post('/register', (req, res) => {
 
   db('users').insert(user)
     .then(saved => {
-      res.status(201).json(user);    //change this to just user if need to return hash for some reason
+      res.status(201).json(user);    //testing purposes
     })
     .catch(error => {
       res.status(500).json(error);
