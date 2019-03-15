@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     const users = await db('users').orderBy('userId');
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: "Could not retrieve users at this time"})
+    res.status(500).json({ message: "Could not retrieve users at this time."})
   }
 })
 
@@ -30,10 +30,10 @@ router.get('/:id', async (req, res) => {
     if (user) {
       res.status(200).json(user);
     } else {
-      res.status(404).json({ message: "couldn't find user with that id"})
+      res.status(404).json({ message: "The user with the specified ID does not exist."})
     }
   } catch (error) {
-    res.status(500).json({ message: "Could not retrieve the user at this time"})
+    res.status(500).json({ message: "Could not retrieve the user at this time."})
   }
 })
 
@@ -68,14 +68,14 @@ router.post('/:id/wishlist', async (req, res) => {
   try {
     const wishlist = await Wishlist.getWishlist(req.params.id);
     if (wishlist.map(item => item.itemId).includes(req.body.itemId)) {
-      return res.status(404).json({ error: "This item is already on your wishlist"})
+      return res.status(404).json({ error: "This item is already on your wishlist."})
     } 
     const item = await db('wishlist').insert(req.body);
     const newWishlist = await db('wishlist');
     if (item) {
       res.status(200).json({ message: "Item added to wishlist!", newWishlist });
     } else {
-      return res.status(404).json({ error: "The item could not be added to your wishlist at this time"})
+      return res.status(404).json({ error: "The item could not be added to your wishlist at this time."})
     }
   } catch (error) {
     res.status(500).json(error);
@@ -92,10 +92,10 @@ router.delete('/:id/wishlist/:wishlistId', async (req, res) => {
     if (wishlistItem) {
         res.status(200).json({ message: "Item removed from wishlist", newWishlist });   
     } else {
-      res.status(404).json({ message: "The item with the specified ID does not exist" });
+      res.status(404).json({ message: "The item with the specified ID does not exist." });
     }
   } catch (error) {
-    res.status(500).json({ message: "We could not remove the item from your wishlist at this time" });
+    res.status(500).json({ message: "We could not remove the item from your wishlist at this time." });
   }
 });
 
@@ -109,7 +109,7 @@ router.put('/:id', async (req, res) => {
     if (edited) {
       return res.status(200).json(editedUser);
     } else {
-      return(res.status(404).json({ error: "The user with the specified ID does not exist"}))
+      return(res.status(404).json({ error: "The user with the specified ID does not exist."}))
     }
   } catch (error) {
     res.status(500).json(error)
@@ -126,7 +126,7 @@ router.delete('/:id', async (req, res) => {
     if (deleted) {
       return res.status(200).json(`Sorry to see you go, ${deletedUser.username}`);
     } else {
-      res.status(404).json({ error: "The user with the specified ID does not exits" })
+      res.status(404).json({ error: "The user with the specified ID does not exits." })
     }
   } catch (error) {
     res.status(500).json({ error: "The user could not be deleted at this time."})
@@ -141,7 +141,7 @@ router.get('/:id/items', async (req, res) => {
     const itemList = await db('items').where({ userId: req.params.id })
     res.status(200).json(itemList)
   } catch (error) {
-    res.status(500).json({ message: "Could not retrieve user items at this time"})
+    res.status(500).json({ message: "Could not retrieve user items at this time."})
   }
 })
 
@@ -182,7 +182,7 @@ router.post('/:id/transactions', async (req, res) => {
     if (transaction) {
       res.status(200).json({ message: `Congratulations on your purchase!`, newTransactionsList });
     } else {
-      return res.status(404).json({ error: "You could not purchase the item at this time"})
+      return res.status(404).json({ error: "You could not purchase the item at this time."})
     }
   } catch (error) {
     res.status(500).json(error);
@@ -197,12 +197,12 @@ router.delete('/:id/transactions/:transactionId', async (req, res) => {
     const transactionListItem = await TransactionList.getTransactionListById(req.params.transactionId).del();
     const newTransactionsList = await db('transactions');
     if (transactionListItem) {
-        res.status(200).json({ message: "Transaction removed from transactions list", newTransactionsList });   
+        res.status(200).json({ message: "Transaction removed from transactions list.", newTransactionsList });   
     } else {
-      res.status(404).json({ message: "The transaction with the specified ID does not exist" });
+      res.status(404).json({ message: "The transaction with the specified ID does not exist." });
     }
   } catch (error) {
-    res.status(500).json({ message: "We could not remove the transaction from your transactionlist at this time" });
+    res.status(500).json({ message: "We could not remove the transaction from your transactionlist at this time." });
   }
 });
 
@@ -219,10 +219,10 @@ router.post('/login', async (req, res) => {
       const id = user.userId;
       res.status(200).json({ message: `Welcome ${user.username}!`, userId: id, token })
     } else {
-      res.status(401).json({ message: 'Invalid credentials'})
+      res.status(401).json({ message: 'Invalid credentials.'})
     }
   } catch (error) {
-    res.status(500).json({ message: "Could not be logged in at this time" })
+    res.status(500).json({ message: "User could not be logged in at this time." })
   }
 });
 

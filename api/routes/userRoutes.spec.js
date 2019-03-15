@@ -110,11 +110,7 @@ describe('User routes', () => {
         expect(res.type).toBe('application/json');
       });
   
-      it('should return the users transactions I request', async () => {
-        const res = await request(server).get('/api/users/21/transactions')
-  
-        expect(res.body.boughtItems).not.toContain("Pikachu");
-      });
+     
       
     });
 
