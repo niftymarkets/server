@@ -8,8 +8,8 @@ exports.seed = function(knex, Promise) {
         //USER 2 BOUGHT NOTHING
         {itemId: 1, name: "Love Ranger", price: 10, description: "Aim for the heart.", category: "outfits", availability: true, img_url: "https://cdn.thetrackernetwork.com/cdn/fortnite/93062_large.png", userId: 1, username: "scott" },
         {itemId: 2, name: "Cuddle Team Leader", price: 25, description: "Hug it out.", category: "outfits", availability: true, img_url: "https://cdn.thetrackernetwork.com/cdn/fortnite/22163_large.png", userId: 1, username: "scott" },
-        {itemId: 3, name: "Blue Squire", price: 15, description: "The bold warrior of Moisty Mire", category: "outfits", availability: true, img_url: 'https://cdn.thetrackernetwork.com/cdn/fortnite/1C0C4_large.png', userId: 1, username: "scott" },
-        {itemId: 4, name: "Royale Knight", price: 5, description: "The dauntless champion of Tomato Town", category: "outfits", availability: true, img_url: 'https://cdn.thetrackernetwork.com/cdn/fortnite/AF497_large.png', userId: 2, username: "sam" },
+        {itemId: 3, name: "Blue Squire", price: 15, description: "The bold warrior of Moisty Mire.", category: "outfits", availability: true, img_url: 'https://cdn.thetrackernetwork.com/cdn/fortnite/1C0C4_large.png', userId: 1, username: "scott" },
+        {itemId: 4, name: "Royale Knight", price: 5, description: "The dauntless champion of Tomato Town.", category: "outfits", availability: true, img_url: 'https://cdn.thetrackernetwork.com/cdn/fortnite/AF497_large.png', userId: 2, username: "sam" },
         {itemId: 5, name: "Brite Bomber", price: 50, description: "The future looks bright...", category: "outfits", availability: true, img_url: "https://cdn.thetrackernetwork.com/cdn/fortnite/2FD88_large.png", userId: 2, username: "sam" },
         {itemId: 6, name: "Floss", price: 29, description: "Express yourself on the battlefield.", category: "emotes", availability: true, img_url: "https://cdn.thetrackernetwork.com/cdn/fortnite/9AB75723_large.png", userId: 2, username: "sam" },
         {itemId: 7, name: "Bring It", price: 17, description: "Let's see what you've got.", category: "emotes", availability: true, img_url: "https://cdn.thetrackernetwork.com/cdn/fortnite/E7535436_large.png", userId: 3, username: "jordan" },
@@ -24,8 +24,8 @@ exports.seed = function(knex, Promise) {
         {itemId: 16, name: "Pikachu", price: 150, description: "Pika Pika!", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/0/0d/025Pikachu.png/800px-025Pikachu.png", userId: 8, username: "stefan" },
         {itemId: 17, name: "Bulbasaur", price: 80, description: "Watch for poison ivy!", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/2/21/001Bulbasaur.png/800px-001Bulbasaur.png", userId: 8, username: "stefan" },
         {itemId: 18, name: "Charmander", price: 120, description: "Fire for smores anytime!", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/7/73/004Charmander.png/800px-004Charmander.png", userId: 9, username: "quinn" },
-        {itemId: 19, name: "Squirtle", price: 100, description: "One part squirrel, one part turtle", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png", userId: 9, username: "quinn" },
-        {itemId: 20, name: "Magikarp", price: 1, description: "Utterly useless", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/0/02/129Magikarp.png", userId: 10, username: "john" },
+        {itemId: 19, name: "Squirtle", price: 100, description: "One part squirrel, one part turtle.", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/thumb/3/39/007Squirtle.png/500px-007Squirtle.png", userId: 9, username: "quinn" },
+        {itemId: 20, name: "Magikarp", price: 1, description: "Utterly useless.", category: "pets", availability: true, img_url: "https://cdn.bulbagarden.net/upload/0/02/129Magikarp.png", userId: 10, username: "john" },
       ]);
     });
 };
